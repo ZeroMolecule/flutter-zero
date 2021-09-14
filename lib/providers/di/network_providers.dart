@@ -8,12 +8,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final dioProvider = Provider<Dio>(
   (ref) => Dio()
     ..options = BaseOptions(baseUrl: Env.apiUrl)
-    ..interceptors.add(AuthInterceptorsWrapper()),
+    ..interceptors.add(AuthInterceptorsWrapper(ref)),
 );
 
 final chuckNorrisJokeAPIProvider = Provider<ChuckNorrisJokeAPI>(
   (ref) => ChuckNorrisJokeAPI(ref.read(dioProvider)),
 );
 
-final authAPIProvider =
-    Provider<AuthAPI>((ref) => AuthAPI(ref.read(dioProvider)));
+final authAPIProvider = Provider<AuthAPI>(
+  (ref) => AuthAPI(ref.read(dioProvider)),
+);

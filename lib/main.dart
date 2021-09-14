@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_zero/screens/login/login_screen.dart';
+import 'package:flutter_zero/screens/splash/splash_screen.dart';
 import 'package:flutter_zero/util/env.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,9 +20,7 @@ class App extends HookWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Navigator(
-        pages: [MaterialPage(child: LoginScreen())],
-      ),
+      home: const SplashScreen(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
     );

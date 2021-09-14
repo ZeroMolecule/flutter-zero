@@ -1,15 +1,17 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:flutter_zero/providers/auth_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_zero/providers/di/storage_providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthInterceptorsWrapper extends InterceptorsWrapper {
+  ProviderReference ref;
+
+  AuthInterceptorsWrapper(this.ref);
+
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString(AuthViewController.accessTokenKey);
+    final token = await ref.read(authStoreProvider).getAccessToken();
 
     if (token != null) {
       options.headers

@@ -13,6 +13,9 @@ abstract class AuthAPI {
   Future<Session> socialSignIn(
       @Path() String provider, @Query('access_token') String accessToken);
 
+  @POST('/auth/local')
+  Future<Session> localSignIn(@Body() Map<String, dynamic> body);
+
   @GET('/users/me')
   Future<User> me();
 }
