@@ -48,3 +48,4 @@ app.*.map.json
 *.g.dart
 *.gen.dart
 *.freezed.dart
+/ios/build
