@@ -1,16 +1,13 @@
-import 'package:flutter_zero/providers/di/app_providers.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthStore {
   static const _accessToken = 'access-token';
 
-  final ProviderReference ref;
+  SharedPreferences? _prefs;
 
-  AuthStore(this.ref);
-
-  Future<SharedPreferences> _getPrefs() {
-    return ref.read(sharedPreferencesProvider.future);
+  Future<SharedPreferences> _getPrefs() async {
+    _prefs ??= await SharedPreferences.getInstance();
+    return _prefs!;
   }
 
   Future<String?> getAccessToken() async {

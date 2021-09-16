@@ -29,6 +29,10 @@ class SplashScreen extends HookWidget {
       }
     }, [status, session]);
 
-    return const Scaffold();
+    return const Scaffold(
+      body: Center(
+        child: Text('Splash'),
+      ),
+    );
   }
 }

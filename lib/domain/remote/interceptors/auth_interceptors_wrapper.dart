@@ -1,17 +1,16 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter_zero/providers/di/storage_providers.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_zero/domain/local/auth_store.dart';
 
 class AuthInterceptorsWrapper extends InterceptorsWrapper {
-  ProviderReference ref;
+  AuthStore authStore;
 
-  AuthInterceptorsWrapper(this.ref);
+  AuthInterceptorsWrapper(this.authStore);
 
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    final token = await ref.read(authStoreProvider).getAccessToken();
+    final token = await authStore.getAccessToken();
 
     if (token != null) {
       options.headers
