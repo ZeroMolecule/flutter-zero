@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_zero/domain/data/auth_provider.dart';
 import 'package:flutter_zero/hooks/global_key_hook.dart';
 import 'package:flutter_zero/hooks/util.dart';
 import 'package:flutter_zero/providers/auth_provider.dart';
@@ -37,10 +38,11 @@ class LoginScreen extends HookWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ElevatedButton(
-              onPressed: () => viewController.socialSignIn('google'),
+              onPressed: () => viewController.socialSignIn(AuthProvider.google),
               child: Text('Google')),
           ElevatedButton(
-              onPressed: () => viewController.socialSignIn('facebook'),
+              onPressed: () =>
+                  viewController.socialSignIn(AuthProvider.facebook),
               child: Text('Facebook')),
           Form(
             key: formKey,

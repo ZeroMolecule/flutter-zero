@@ -1,11 +1,14 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_zero/domain/data/auth_provider.dart';
 import 'package:flutter_zero/domain/data/session.dart';
 import 'package:flutter_zero/providers/di/oauth_providers.dart';
 import 'package:flutter_zero/providers/di/network_providers.dart';
 import 'package:flutter_zero/providers/di/storage_providers.dart';
 import 'package:flutter_zero/providers/state/status.dart';
+import 'package:flutter_zero/util/apple_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 final authStatusProvider = StateProvider((ref) => Status.idle);
 final authErrorProvider = StateProvider<dynamic>((ref) => null);
@@ -25,6 +28,8 @@ class AuthViewController {
 
   FacebookAuth _getFacebookAuthProvider() => ref.read(facebookAuthProvider);
 
+  AppleSignIn _getAppleSignInProvider() => ref.read(appleSignInProvider);
+
   Future<String> _getGoogleAccessToken() async {
     final provider = _getGoogleSignInProvider();
     await provider.signIn();
@@ -42,6 +47,15 @@ class AuthViewController {
     throw Exception(result.message);
   }
 
+  Future<String> _getAppleAccessToken() async {
+    final provider = _getAppleSignInProvider();
+    final credentials = await provider.getAppleIDCredential(scopes: [
+      AppleIDAuthorizationScopes.email,
+      AppleIDAuthorizationScopes.fullName
+    ]);
+    return credentials.authorizationCode;
+  }
+
   Future<void> init() => statefulFetch(
       status: () => ref.read(authStatusProvider),
       error: () => ref.read(authErrorProvider),
@@ -54,7 +68,7 @@ class AuthViewController {
         }
       });
 
-  Future<void> socialSignIn(String provider) => statefulFetch(
+  Future<void> socialSignIn(AuthProvider provider) => statefulFetch(
         status: () => ref.read(authStatusProvider),
         error: () => ref.read(authErrorProvider),
         data: () => ref.read(authProvider),
@@ -62,11 +76,14 @@ class AuthViewController {
           String accessToken;
 
           switch (provider) {
-            case 'google':
+            case AuthProvider.google:
               accessToken = await _getGoogleAccessToken();
               break;
-            case 'facebook':
+            case AuthProvider.facebook:
               accessToken = await _getFacebookAccessToken();
+              break;
+            case AuthProvider.apple:
+              accessToken = await _getAppleAccessToken();
               break;
             default:
               throw Exception('"$provider" provider not supported.');
@@ -74,7 +91,7 @@ class AuthViewController {
 
           final session = await ref
               .read(authAPIProvider)
-              .socialSignIn(provider, accessToken);
+              .socialSignIn(provider.key, accessToken);
           await ref.read(authStoreProvider).setAccessToken(session.jwt);
 
           return session;
@@ -104,11 +121,15 @@ class AuthViewController {
         final provider = session?.user.provider;
 
         switch (provider) {
-          case 'google':
+          case AuthProvider.google:
             await _getGoogleSignInProvider().signOut();
             break;
-          case 'facebook':
+          case AuthProvider.facebook:
             await _getFacebookAuthProvider().logOut();
+            break;
+          case AuthProvider.apple:
+          case AuthProvider.local:
+          default:
             break;
         }
         await ref.read(authStoreProvider).removeAccessToken();

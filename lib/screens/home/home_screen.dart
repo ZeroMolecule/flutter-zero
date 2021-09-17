@@ -6,6 +6,7 @@ import 'package:flutter_zero/providers/state/status.dart';
 import 'package:flutter_zero/screens/login/login_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_zero/extensions/navigator_state.dart';
+import 'package:flutter_zero/domain/data/auth_provider.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class HomeScreen extends HookWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(session?.user.email ?? ''),
-          Text(session?.user.provider ?? ''),
+          Text(session?.user.provider.key ?? ''),
           ElevatedButton(
             child: Text('Logout'),
             onPressed: () => viewController.signOut(),
