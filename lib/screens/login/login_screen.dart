@@ -44,6 +44,9 @@ class LoginScreen extends HookWidget {
               onPressed: () =>
                   viewController.socialSignIn(AuthProvider.facebook),
               child: Text('Facebook')),
+          ElevatedButton(
+              onPressed: () => viewController.socialSignIn(AuthProvider.apple),
+              child: Text('Apple')),
           Form(
             key: formKey,
             child: Column(

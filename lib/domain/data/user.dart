@@ -17,5 +17,14 @@ abstract class User with _$User {
 }
 
 AuthProvider _parseProvider(dynamic provider) {
-  return AuthProvider.google;
+  switch (provider) {
+    case 'google':
+      return AuthProvider.google;
+    case 'facebook':
+      return AuthProvider.facebook;
+    case 'apple':
+      return AuthProvider.apple;
+    default:
+      throw Exception('"$provider" AuthProvider not supported.');
+  }
 }
