@@ -11,11 +11,24 @@ abstract class AuthAPI {
 
   @GET('/auth/{provider}/callback')
   Future<Session> socialSignIn(
-      @Path() String provider, @Query('access_token') String accessToken);
+    @Path() String provider,
+    @Query('access_token') String accessToken,
+  );
 
   @POST('/auth/local')
-  Future<Session> localSignIn(@Body() Map<String, dynamic> body);
+  Future<Session> localSignInRequest(@Body() Map<String, dynamic> body);
 
   @GET('/users/me')
   Future<User> me();
+}
+
+extension AuthAPIExtensions on AuthAPI {
+  Future<Session> localSignin({
+    required String identifier,
+    required String password,
+  }) =>
+      localSignInRequest({
+        'identifier': identifier,
+        'password': password,
+      });
 }

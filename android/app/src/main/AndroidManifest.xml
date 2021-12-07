@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zeromolecule.flutter_zero">
+    package="com.zeromolecule">
    <application
-        android:label="flutter_zero"
+        android:label="Zero Molecule"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

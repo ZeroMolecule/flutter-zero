@@ -1,24 +1,21 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_zero/flow/auth/providers/auth_provider.dart';
 import 'package:flutter_zero/navigation/app_router.gr.dart';
-import 'package:flutter_zero/providers/auth_provider.dart';
-import 'package:flutter_zero/providers/state/status.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthGuard extends AutoRouteGuard {
-  final ProviderReference ref;
+  final Ref _ref;
 
-  AuthGuard(this.ref);
+  AuthGuard(this._ref);
 
-  bool get isAuthenticated =>
-      ref.read(authStatusProvider).state == Status.fulfilled &&
-      ref.read(authProvider).state?.jwt != null;
+  AuthProvider get _authProvider => _ref.read(authProvider);
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    await ref.read(authViewControllerProvider).init();
-    if (!isAuthenticated) {
+    await _authProvider.init();
+    if (!_authProvider.isAuthenticated) {
       await router.navigate(const LoginRoute());
     }
-    resolver.next(isAuthenticated);
+    resolver.next(_authProvider.isAuthenticated);
   }
 }

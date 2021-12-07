@@ -1,8 +1,9 @@
 import 'package:auto_route/annotations.dart';
-import 'package:flutter_zero/example/screens/pokemon_details_screen.dart';
+import 'package:flutter_zero/flow/auth/screens/login_screen.dart';
+import 'package:flutter_zero/flow/home/home_screen.dart';
 import 'package:flutter_zero/navigation/auth_guard.dart';
-import 'package:flutter_zero/screens/home/home_screen.dart';
-import 'package:flutter_zero/screens/login/login_screen.dart';
+import 'package:flutter_zero/navigation/config_guard.dart';
+import 'package:flutter_zero/navigation/splash_guard.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Screen,Route',
@@ -10,18 +11,14 @@ import 'package:flutter_zero/screens/login/login_screen.dart';
     AutoRoute(
       initial: true,
       page: HomeScreen,
-      guards: [AuthGuard],
+      guards: [ConfigGuard, AuthGuard, SplashGuard],
     ),
     AutoRoute(
       page: LoginScreen,
       path: '/auth/login',
       usesPathAsKey: true,
+      guards: [ConfigGuard, SplashGuard],
     ),
-    AutoRoute(
-      page: PokemonDetailsScreen,
-      path: '/pokemon/:id',
-      usesPathAsKey: true,
-    )
   ],
 )
 class $AppRouter {}

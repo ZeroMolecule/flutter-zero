@@ -1,0 +1,22 @@
+flutter_application_id:
+  android:
+    id: "com.zeromolecule"
+    name: "Zero Molecule"
+  ios:
+    id: "com.zeromolecule"
+    name: "Zero Molecule"
+
+flutter_icons:
+  ios: true
+  android: true
+  image_path: "assets/app/icon.png"
+  image_path_ios: "assets/app/icon.png"
+  image_path_android: "assets/app/icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/app/icon_android_fg.png"
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  fullscreen: true
+  image: assets/app/splash.png
