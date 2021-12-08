@@ -20,7 +20,6 @@ class InfoDialog extends HookWidget {
     String? secondaryText,
     Function()? onSecondaryPressed,
   }) {
-    print('Showing dialog...');
     dismiss(context);
     return showDialog(
       context: context,

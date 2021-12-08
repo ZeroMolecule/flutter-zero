@@ -19,7 +19,6 @@ class ErrorParser {
   String? _parseDioError(DioError? error) {
     final data = error?.response?.data;
     if (data != null) {
-      print(data);
       return _parseJsonError(data);
     } else {
       return _parseJsonError(error?.error);

@@ -62,12 +62,6 @@ class LoginScreen extends HookConsumerWidget {
               child: const Text('Google'),
             ),
             ElevatedButton(
-              onPressed: () {
-                AutoRouter.of(context).navigate(const ForgotPasswordRoute());
-              },
-              child: const Text('Facebook'),
-            ),
-            ElevatedButton(
               onPressed: provider.loginApple,
               child: const Text('Apple'),
             ),
@@ -85,13 +79,19 @@ class LoginScreen extends HookConsumerWidget {
                     formControlName: 'password',
                     decoration: const InputDecoration(hintText: 'Password'),
                     keyboardType: TextInputType.visiblePassword,
-                    obscureText: false,
+                    obscureText: true,
                     validationMessages: validationParser.parse,
                   ),
                   ElevatedButton(
                     child: const Text('Submit'),
                     onPressed: handleLogin,
-                  )
+                  ),
+                  ElevatedButton(
+                    onPressed: () => AutoRouter.of(context).navigate(
+                      const ForgotPasswordRoute(),
+                    ),
+                    child: const Text('Forgot password'),
+                  ),
                 ],
               ),
             ),
