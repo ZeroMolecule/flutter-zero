@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flutter_zero/flow/auth/screens/forgot_password_screen.dart';
 import 'package:flutter_zero/flow/auth/screens/login_screen.dart';
 import 'package:flutter_zero/flow/home/home_screen.dart';
 import 'package:flutter_zero/navigation/auth_guard.dart';
@@ -19,6 +20,12 @@ import 'package:flutter_zero/navigation/splash_guard.dart';
       usesPathAsKey: true,
       guards: [ConfigGuard, SplashGuard],
     ),
+    AutoRoute(
+      page: ForgotPasswordScreen,
+      path: '/auth/forgot-password',
+      usesPathAsKey: true,
+      guards: [ConfigGuard],
+    )
   ],
 )
 class $AppRouter {}

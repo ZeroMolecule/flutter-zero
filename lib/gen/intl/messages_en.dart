@@ -26,6 +26,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorMessage":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
         "loadingMessage": MessageLookupByLibrary.simpleMessage("Please wait"),
-        "randomPokemon": MessageLookupByLibrary.simpleMessage("Random Pokemon")
+        "randomPokemon": MessageLookupByLibrary.simpleMessage("Random Pokemon"),
+        "validationEmail": MessageLookupByLibrary.simpleMessage(
+            "Please provide a valid email address"),
+        "validationPasswordShort":
+            MessageLookupByLibrary.simpleMessage("Password is too short"),
+        "validationRequired":
+            MessageLookupByLibrary.simpleMessage("This field is required")
       };
 }

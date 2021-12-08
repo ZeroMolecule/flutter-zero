@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_zero/widgets/loading_overlay.dart';
+import 'package:flutter_zero/hooks/stream_listener_hook.dart';
+import 'package:flutter_zero/util/async_action.dart';
+import 'package:flutter_zero/widgets/dialogs/loading_overlay.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void _showLoading(BuildContext context) => LoadingOverlay.show(context);
 
@@ -18,37 +21,52 @@ void _dismissError(BuildContext context) {
 }
 
 useAsyncAction<T>(
-  Future<T> Function() action, {
+  AsyncAction<T> action, {
   Function()? onDone,
   Function(T)? onData,
-  Function(Object error, [StackTrace? stack])? showError,
-  Function()? showLoading,
-  Function()? dismissLoading = _dismissLoading,
-  Function()? dismissError,
+  Function(Object error, StackTrace? stack)? onError,
+  Function()? onLoading,
+  Function()? onDismissLoading,
+  Function()? onDismissError,
   List<Object?> keys = const [],
 }) {
   final context = useContext();
-  return useCallback(() async {
-    showLoading ??= () => _showLoading(context);
-    showError ??= (Object error, [StackTrace? stack]) => _showError(
-          context,
-          error,
-          stack,
-        );
-    dismissError ??= () => _dismissError(context);
+  useStreamListener<AsyncValue<T>>(
+    action.stream,
+    (event) async {
+      if (onDismissLoading != null) {
+        await onDismissLoading();
+      } else {
+        _dismissLoading();
+      }
 
-    dismissError?.call();
-    showLoading?.call();
-    final T result;
-    try {
-      result = await action();
-      dismissLoading?.call();
-    } catch (error, stack) {
-      showError?.call(error, stack);
-      dismissLoading?.call();
-      return;
-    }
-    onDone?.call();
-    onData?.call(result);
-  }, keys);
+      if (onDismissError != null) {
+        await onDismissError();
+      } else {
+        _dismissError(context);
+      }
+
+      await event.when(
+        data: (data) async {
+          onDone?.call();
+          onData?.call(data);
+        },
+        error: (error, stack) async {
+          if (onError != null) {
+            onError(error, stack);
+          } else {
+            _showError(context, error, stack);
+          }
+        },
+        loading: () async {
+          if (onLoading != null) {
+            onLoading();
+          } else {
+            _showLoading(context);
+          }
+        },
+      );
+    },
+    keys: keys,
+  );
 }

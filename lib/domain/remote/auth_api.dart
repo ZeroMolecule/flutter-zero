@@ -18,6 +18,18 @@ abstract class AuthAPI {
   @POST('/auth/local')
   Future<Session> localSignInRequest(@Body() Map<String, dynamic> body);
 
+  @POST('/auth/forgot-password')
+  @FormUrlEncoded()
+  Future<void> forgotPassword({@Field('email') required String email});
+
+  @POST('/auth/reset-password')
+  @FormUrlEncoded()
+  Future<void> resetPassword({
+    @Field('code') required String code,
+    @Field('password') required String password,
+    @Field('passwordConfirmation') required String passwordConfirmation,
+  });
+
   @GET('/users/me')
   Future<User> me();
 }

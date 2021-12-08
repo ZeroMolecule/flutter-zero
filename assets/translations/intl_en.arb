@@ -1,4 +1,7 @@
 {
+  "validationRequired": "This field is required",
+  "validationEmail": "Please provide a valid email address",
+  "validationPasswordShort": "Password is too short",
   "appName": "Flutter Zero",
   "@appName": {
     "description": "The name of the app"

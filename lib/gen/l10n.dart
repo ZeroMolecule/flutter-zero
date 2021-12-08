@@ -50,6 +50,36 @@ class AppTranslations {
     return Localizations.of<AppTranslations>(context, AppTranslations);
   }
 
+  /// `This field is required`
+  String get validationRequired {
+    return Intl.message(
+      'This field is required',
+      name: 'validationRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please provide a valid email address`
+  String get validationEmail {
+    return Intl.message(
+      'Please provide a valid email address',
+      name: 'validationEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is too short`
+  String get validationPasswordShort {
+    return Intl.message(
+      'Password is too short',
+      name: 'validationPasswordShort',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Flutter Zero`
   String get appName {
     return Intl.message(

@@ -7,6 +7,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
+class $AssetsAppGen {
+  const $AssetsAppGen();
+
+  AssetGenImage get icon => const AssetGenImage('assets/app/icon.png');
+  AssetGenImage get iconAndroidFg =>
+      const AssetGenImage('assets/app/icon_android_fg.png');
+  AssetGenImage get splash => const AssetGenImage('assets/app/splash.png');
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -16,6 +25,7 @@ class $AssetsImagesGen {
 class Assets {
   Assets._();
 
+  static const $AssetsAppGen app = $AssetsAppGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

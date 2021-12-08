@@ -48,6 +48,7 @@ dependencies:
   sign_in_with_apple: ^3.3.0
   auto_route: ^3.1.3
   rxdart: ^0.27.3
+  reactive_forms: ^10.6.6
 
 dev_dependencies:
   flutter_lints: ^1.0.4
@@ -82,6 +83,7 @@ flutter_gen:
 flutter:
   assets:
     - assets/images/
+    - assets/app/
     - assets/icons/
     - assets/animations/
     - .env

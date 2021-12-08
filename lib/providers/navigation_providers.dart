@@ -6,11 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final authGuardProvider = Provider((ref) => AuthGuard(ref));
 final configGuardProvider = Provider((ref) => ConfigGuard(ref));
-final splashGuardProvider = Provider((ref) {
-  final sg = SplashGuard();
-  print('inited');
-  return sg;
-});
+final splashGuardProvider = Provider((ref) => SplashGuard());
 final appRouterProvider = Provider(
   (ref) => AppRouter(
     configGuard: ref.read(configGuardProvider),

@@ -75,4 +75,19 @@ class AuthRepository {
   Future<void> logout() async {
     await _authStore.removeAccessToken();
   }
+
+  Future<void> requestPasswordReset({required String email}) async {
+    return _authAPI.forgotPassword(email: email);
+  }
+
+  Future<void> resetPassword({
+    required String code,
+    required String password,
+  }) async {
+    return _authAPI.resetPassword(
+      code: code,
+      password: password,
+      passwordConfirmation: password,
+    );
+  }
 }

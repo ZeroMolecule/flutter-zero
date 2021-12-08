@@ -11,6 +11,7 @@ class ColorName {
 
   static const Color accent = Color(0xFFF25652);
   static const Color black = Color(0xFF000000);
+  static const Color overlay = Color(0x20000000);
   static const Color primary = Color(0xFF102E47);
   static const Color white = Color(0xFFFFFFFF);
 }

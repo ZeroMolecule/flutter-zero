@@ -23,9 +23,7 @@ class HomeScreen extends HookConsumerWidget {
       AutoRouter.of(context).navigate(const LoginRoute());
     }, [provider]);
 
-    final handleLogout = useAsyncAction(() => provider.logout(), onDone: () {
-      print('Ajm dan');
-    });
+    useAsyncAction(provider.actionLogout);
 
     return Scaffold(
       body: Center(
@@ -34,7 +32,7 @@ class HomeScreen extends HookConsumerWidget {
           children: [
             if (user != null) Text(user.email),
             ElevatedButton(
-              onPressed: isAuthenticated ? handleLogout : handleLogin,
+              onPressed: isAuthenticated ? provider.logout : handleLogin,
               child: Text(isAuthenticated ? 'Logout' : 'Login'),
             ),
           ],
