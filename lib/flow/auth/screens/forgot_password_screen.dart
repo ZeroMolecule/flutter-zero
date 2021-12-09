@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_zero/flow/auth/providers/forgot_password_provider.dart';
 import 'package:flutter_zero/hooks/async_action_hook.dart';
 import 'package:flutter_zero/hooks/form_hook.dart';
-import 'package:flutter_zero/hooks/validation_parser_hook.dart';
+import 'package:flutter_zero/util/validation_parser.dart';
 import 'package:flutter_zero/widgets/dialogs/info_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -15,14 +15,13 @@ class ForgotPasswordScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(forgotPasswordProvider);
-    final validationParser = useValidationParser();
     final form = useForm({
       'email': FormControl<String>(
         validators: [
           Validators.required,
           Validators.email,
         ],
-        value: 'demo@mail.com',
+        value: 'david.macan+qa@zeromolecule.com',
       ),
     });
 
@@ -60,7 +59,7 @@ class ForgotPasswordScreen extends HookConsumerWidget {
               keyboardType: TextInputType.emailAddress,
               autocorrect: false,
               autofocus: true,
-              validationMessages: validationParser.parse,
+              validationMessages: ValidationParser.parse,
             ),
             const SizedBox(height: 12),
             ElevatedButton(

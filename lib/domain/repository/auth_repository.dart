@@ -54,7 +54,7 @@ class AuthRepository {
     required String identifier,
     required String password,
   }) async {
-    final session = await _authAPI.localSignin(
+    final session = await _authAPI.localSignIn(
       identifier: identifier,
       password: password,
     );
@@ -83,11 +83,12 @@ class AuthRepository {
   Future<void> resetPassword({
     required String code,
     required String password,
+    required String passwordConfirm,
   }) async {
     return _authAPI.resetPassword(
       code: code,
       password: password,
-      passwordConfirmation: password,
+      passwordConfirm: passwordConfirm,
     );
   }
 }

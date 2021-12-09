@@ -24,10 +24,8 @@ abstract class AuthAPI {
 
   @POST('/auth/reset-password')
   @FormUrlEncoded()
-  Future<void> resetPassword({
-    @Field('code') required String code,
-    @Field('password') required String password,
-    @Field('passwordConfirmation') required String passwordConfirmation,
+  Future<void> resetPasswordRequest({
+    @Body() required Map<String, dynamic> body,
   });
 
   @GET('/users/me')
@@ -35,12 +33,23 @@ abstract class AuthAPI {
 }
 
 extension AuthAPIExtensions on AuthAPI {
-  Future<Session> localSignin({
+  Future<Session> localSignIn({
     required String identifier,
     required String password,
   }) =>
       localSignInRequest({
         'identifier': identifier,
         'password': password,
+      });
+
+  Future<void> resetPassword({
+    required String code,
+    required String password,
+    required String passwordConfirm,
+  }) =>
+      resetPasswordRequest(body: {
+        'code': code,
+        'password': password,
+        'passwordConfirmation': passwordConfirm,
       });
 }
