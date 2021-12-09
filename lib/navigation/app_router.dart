@@ -1,7 +1,8 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flutter_zero/flow/auth/forgot_password/forgot_password_screen.dart';
+import 'package:flutter_zero/flow/auth/login/login_screen.dart';
 import 'package:flutter_zero/flow/auth/password_reset/password_reset_screen.dart';
-import 'package:flutter_zero/flow/auth/screens/forgot_password_screen.dart';
-import 'package:flutter_zero/flow/auth/screens/login_screen.dart';
+import 'package:flutter_zero/flow/auth/register/register_screen.dart';
 import 'package:flutter_zero/flow/home/home_screen.dart';
 import 'package:flutter_zero/navigation/auth_guard.dart';
 import 'package:flutter_zero/navigation/config_guard.dart';
@@ -20,6 +21,12 @@ import 'package:flutter_zero/navigation/splash_guard.dart';
       path: '/auth/login',
       usesPathAsKey: true,
       guards: [ConfigGuard, SplashGuard],
+    ),
+    AutoRoute(
+      page: RegisterScreen,
+      path: '/auth/register',
+      usesPathAsKey: true,
+      guards: [ConfigGuard],
     ),
     AutoRoute(
       page: ForgotPasswordScreen,

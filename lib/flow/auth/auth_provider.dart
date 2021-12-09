@@ -17,6 +17,9 @@ class AuthProvider with ChangeNotifier {
   late final AsyncAction actionLogin = AsyncAction();
   late final AsyncAction actionLoginSocial = AsyncAction();
   late final AsyncAction actionLogout = AsyncAction();
+  late final AsyncAction actionRegister = AsyncAction();
+  late final AsyncAction actionResetPassword = AsyncAction();
+  late final AsyncAction actionRequestPasswordReset = AsyncAction();
 
   AsyncValue<Session?> _sessionValue = const AsyncValue.loading();
 
@@ -59,6 +62,42 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
       });
 
+  Future<void> register({
+    required String email,
+    required String password,
+  }) =>
+      actionRegister.run(() => _authRepository.register(
+            email: email,
+            password: password,
+          ));
+
+  Future<void> requestPasswordReset({
+    required String email,
+  }) =>
+      actionRequestPasswordReset.run(() async {
+        await _authRepository.requestPasswordReset(
+          email: email,
+        );
+        await _authRepository.logout();
+        _sessionValue = const AsyncValue.data(null);
+        notifyListeners();
+      });
+
+  Future<void> resetPassword({
+    required String code,
+    required String password,
+    required String passwordConfirm,
+  }) =>
+      actionResetPassword.run(() async {
+        final session = await _authRepository.resetPassword(
+          code: code,
+          password: password,
+          passwordConfirm: passwordConfirm,
+        );
+        _sessionValue = AsyncValue.data(session);
+        notifyListeners();
+      });
+
   Future<void> logout() => actionLogout.run(() async {
         await _authRepository.logout();
         _sessionValue = const AsyncValue.data(null);
@@ -71,6 +110,9 @@ class AuthProvider with ChangeNotifier {
       actionLogin.dispose(),
       actionLogout.dispose(),
       actionLoginSocial.dispose(),
+      actionRegister.dispose(),
+      actionResetPassword.dispose(),
+      actionRequestPasswordReset.dispose(),
     ]);
     super.dispose();
   }

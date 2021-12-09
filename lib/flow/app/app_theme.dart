@@ -30,6 +30,7 @@ class AppTheme with ChangeNotifier {
     horizontal: 16,
     vertical: 4,
   );
+  late final colors = ColorName;
 
   late final TextTheme textTheme = const TextTheme(
     headline1: TextStyle(

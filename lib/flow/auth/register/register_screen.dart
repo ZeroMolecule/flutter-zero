@@ -11,72 +11,66 @@ import 'package:flutter_zero/widgets/dialogs/info_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class PasswordResetScreen extends HookConsumerWidget {
-  final String code;
-
-  const PasswordResetScreen({
-    Key? key,
-    @pathParam required this.code,
-  }) : super(key: key);
+class RegisterScreen extends HookConsumerWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(authProvider);
     final form = useForm({
+      'email': FormControl<String>(validators: [
+        Validators.required,
+        Validators.email,
+      ]),
       'password': FormControl<String>(validators: [
         Validators.required,
         Validators.minLength(6),
       ]),
-      'passwordConfirm': FormControl<String>(),
-    }, validators: [
-      Validators.mustMatch('password', 'passwordConfirm', markAsDirty: false)
-    ]);
+    });
 
     final handleSubmit = useCallback(() {
-      form.markAllAsTouched();
-      if (form.valid) {
-        return provider.resetPassword(
-          code: code,
+      if ((form..markAllAsTouched()).valid) {
+        provider.register(
+          email: form.control('email').value,
           password: form.control('password').value,
-          passwordConfirm: form.control('passwordConfirm').value,
         );
       }
-    }, [form, provider, code]);
+    }, [provider, form]);
 
-    useAsyncAction(
-      provider.actionResetPassword,
-      onDone: () {
-        InfoDialog.show(
-          context,
-          titleText: 'Success',
-          contentText: 'Your password has been reset. Try using it to sign in',
-          onPrimaryPressed: () => AutoRouter.of(context).popOrReplaceAll([
-            const HomeRoute(),
-          ]),
-        );
-      },
-    );
+    useAsyncAction(provider.actionRegister, onDone: () {
+      InfoDialog.show(
+        context,
+        titleText: 'Registration successful',
+        contentText: 'Check your email',
+        onPrimaryPressed: () => AutoRouter.of(context).popOrReplaceAll([
+          const HomeRoute(),
+        ]),
+      );
+    });
 
     return Scaffold(
       appBar: AppBar(),
       body: ReactiveForm(
         formGroup: form,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ReactiveTextField(
-              formControlName: 'password',
+              formControlName: 'email',
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              textCapitalization: TextCapitalization.none,
               validationMessages: ValidationParser.parse,
             ),
-            const SizedBox(height: 12),
             ReactiveTextField(
-              formControlName: 'passwordConfirm',
+              formControlName: 'password',
+              obscureText: true,
+              autocorrect: false,
+              keyboardType: TextInputType.visiblePassword,
+              textCapitalization: TextCapitalization.none,
               validationMessages: ValidationParser.parse,
             ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: handleSubmit,
-              child: const Text('Submit'),
-            ),
+            ElevatedButton(onPressed: handleSubmit, child: Text('Register')),
           ],
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_zero/flow/auth/providers/forgot_password_provider.dart';
+import 'package:flutter_zero/flow/auth/auth_provider.dart';
 import 'package:flutter_zero/hooks/async_action_hook.dart';
 import 'package:flutter_zero/hooks/form_hook.dart';
 import 'package:flutter_zero/util/validation_parser.dart';
@@ -14,7 +14,7 @@ class ForgotPasswordScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(forgotPasswordProvider);
+    final provider = ref.watch(authProvider);
     final form = useForm({
       'email': FormControl<String>(
         validators: [
@@ -29,12 +29,14 @@ class ForgotPasswordScreen extends HookConsumerWidget {
       FocusScope.of(context).unfocus();
       form.markAllAsTouched();
       if (form.valid) {
-        return provider.submit(email: form.control('email').value);
+        return provider.requestPasswordReset(
+          email: form.control('email').value,
+        );
       }
     }, [provider, form]);
 
     useAsyncAction(
-      provider.actionSubmit,
+      provider.actionRequestPasswordReset,
       onDone: () {
         InfoDialog.show(
           context,

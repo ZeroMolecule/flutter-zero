@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_zero/flow/auth/providers/auth_provider.dart';
+import 'package:flutter_zero/flow/auth/auth_provider.dart';
 import 'package:flutter_zero/navigation/app_router.gr.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

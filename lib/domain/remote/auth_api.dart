@@ -18,13 +18,16 @@ abstract class AuthAPI {
   @POST('/auth/local')
   Future<Session> localSignInRequest(@Body() Map<String, dynamic> body);
 
+  @POST('/auth/local/register')
+  Future<void> localRegisterRequest(@Body() Map<String, dynamic> body);
+
   @POST('/auth/forgot-password')
   @FormUrlEncoded()
   Future<void> forgotPassword({@Field('email') required String email});
 
   @POST('/auth/reset-password')
   @FormUrlEncoded()
-  Future<void> resetPasswordRequest({
+  Future<Session> resetPasswordRequest({
     @Body() required Map<String, dynamic> body,
   });
 
@@ -42,7 +45,17 @@ extension AuthAPIExtensions on AuthAPI {
         'password': password,
       });
 
-  Future<void> resetPassword({
+  Future<void> registerRequest({
+    required String email,
+    required String password,
+  }) =>
+      localRegisterRequest({
+        'email': email,
+        'password': password,
+        'username': email,
+      });
+
+  Future<Session> resetPassword({
     required String code,
     required String password,
     required String passwordConfirm,
